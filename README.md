@@ -10,4 +10,4 @@ In this repository, you'll find:
 
 If you download these files you will need to unblock dotnet-tools.json before you can compile and run the MonoGame examples. See Bonus Level 1 - Let's take this online in the book for more instructions.
 
-Don't forget to visit the book's companion website at https://welcomebraveadventurer.ca
+Finally, this respository is still a work in progress - the book has many, many examples. If there is something missing or something not working properly, please reach out to the email address that can be found at https://welcomebraveadventurer.ca
