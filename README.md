@@ -5,7 +5,7 @@ Welcome to the GitHub repository that accompanies the book A Gamer's Introductio
 In this repository, you'll find:
 
 * all the assets used in the book
-* starter projects for the level examples and the code quests
+* **starter projects for the level examples and the code quests (these are still be developed and should be available by Oct 25th, 2025)**
 * completed project for the level examples and the code quests
 
 If you download these files you will need to unblock dotnet-tools.json before you can compile and run the MonoGame examples. See Bonus Level 1 - Let's take this online in the book for more instructions.
