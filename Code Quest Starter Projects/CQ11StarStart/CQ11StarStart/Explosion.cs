@@ -1,0 +1,47 @@
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace CQ11StarStart
+{
+    internal class Explosion
+    {
+        //attributes that we need for our explosion to look awesome
+        private Texture2D _explosionSpritesheet;
+        private float _explosionX, _explosionY;
+        private bool _explosionFinished;
+        private int _animationIndex, _animationTimer;
+
+        //constructor to set up our explosion's default values
+        public Explosion(float explosionX,  float explosionY, Texture2D explosionSpritesheet)
+        {
+            _explosionX = explosionX;
+            _explosionY = explosionY;
+            _explosionSpritesheet = explosionSpritesheet;
+
+            _animationIndex = 0;
+            _animationTimer = 0;
+            _explosionFinished = false;
+        }
+
+        public void Update()
+        {
+            //Let's animate our explosion!
+
+
+
+
+        }
+
+        //simple getter to see if the explosion is done
+        public bool isExplosionFinished() { return _explosionFinished;  }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            //all the variables come together to draw our lovely explosion
+            spriteBatch.Draw(_explosionSpritesheet, new Vector2(_explosionX, _explosionY), new Rectangle(0, 0, 128, 128), Color.White, 0, new Vector2(64,64), 1, SpriteEffects.None, 0);
+            spriteBatch.End();
+        }
+    }
+}
