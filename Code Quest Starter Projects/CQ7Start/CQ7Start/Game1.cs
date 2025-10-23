@@ -138,12 +138,12 @@ namespace CQ7Start
             }
 
             float horizontalMovement = currentGamePadState.ThumbSticks.Left.X;
-            _gremlinX += horizontalMovement * _heroSpeed;
+            _gremlinX += horizontalMovement * _gremlinSpeed;
             float verticalMovement = currentGamePadState.ThumbSticks.Left.Y;
-            _gremlinY -= verticalMovement * _heroSpeed;
+            _gremlinY -= verticalMovement * _gremlinSpeed;
 
-            _gremlinAngle += currentGamePadState.Triggers.Left * _heroRotationSpeed;
-            _gremlinAngle -= currentGamePadState.Triggers.Right * _heroRotationSpeed;
+            _gremlinAngle += currentGamePadState.Triggers.Left * _gremlinRotationSpeed;
+            _gremlinAngle -= currentGamePadState.Triggers.Right * _gremlinRotationSpeed;
 
 
 
