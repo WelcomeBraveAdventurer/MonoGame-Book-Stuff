@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
-namespace CQ7Start
+namespace CQ7Done
 {
     public class Game1 : Game
     {
@@ -15,7 +15,8 @@ namespace CQ7Start
         private Texture2D _heroSprite;
         private float _heroX, _heroY;
         private float _heroSpeed;
-        private float _heroAngle, _heroRotationSpeed;
+        private float _heroAngle;
+        private float _heroRotationSpeed;
         private Color _heroColor;
 
         //declare our gremlin's variables
@@ -30,11 +31,14 @@ namespace CQ7Start
         private float _starX, _starY;
         private float _starAngle;
         private Color _starColor;
+        private float _starRotationSpeed;
+        private float _mouseWheelValue;
 
         //these variables will help with our input
-        private bool _mouseLeftClicked, _mouseRightClicked, _starDragging;
+        private bool _mouseLeftClicked, _mouseRightClicked, _starDragging, _spaceBarPressed, _tKeyPressed, _aButtonPressed, _xButtonPressed;
 
-        //a handy random number generator
+
+        //random number generator for teleporting and colors
         private Random _rng;
 
 
@@ -43,6 +47,7 @@ namespace CQ7Start
         private float _heroScale;
         private float _gremlinScale;
         private float _starScale;
+
 
         public Game1()
         {
@@ -61,6 +66,7 @@ namespace CQ7Start
             _heroAngle = 0;
             _heroRotationSpeed = 0.25f;
             _heroColor = Color.White;
+            _heroScale = 1.0f;
 
             //and the gremlin variables to set up here
             _gremlinX = 600;
@@ -69,6 +75,7 @@ namespace CQ7Start
             _gremlinAngle = 0;
             _gremlinRotationSpeed = 0.25f;
             _gremlinColor = Color.White;
+            _gremlinScale = 1.0f;
 
 
             //star variables to set up
@@ -76,12 +83,20 @@ namespace CQ7Start
             _starY = 300;
             _starColor = Color.White;
             _starAngle = 0;
+            _starScale = 0.25f;
+            _mouseWheelValue = 0;
+
+
 
 
             //these will help us to control some of our input
+            _spaceBarPressed = false;
+            _tKeyPressed = false;
             _mouseLeftClicked = false;
             _mouseRightClicked = false;
             _starDragging = false;
+            _aButtonPressed = false;
+            _xButtonPressed = false;
 
 
             //including these to make CQ7 a bit easier
@@ -92,6 +107,9 @@ namespace CQ7Start
 
             //initialize our random number generator
             _rng = new Random();
+
+
+
 
             base.Initialize();
         }
@@ -146,12 +164,44 @@ namespace CQ7Start
             }
 
 
-            if (currentKeyboardState.IsKeyDown(Keys.Space))
+            //CQ7 - single space press
+            if (currentKeyboardState.IsKeyDown(Keys.Space) && !_spaceBarPressed)
             {
-                _heroColor = new Color(_rng.Next(128, 255), _rng.Next(128, 255), _rng.Next(128, 255));
+                Random rng = new Random();
+                _heroColor = new Color(rng.Next(128, 255), rng.Next(128, 255), rng.Next(128, 255));
+                _spaceBarPressed = true;
             }
 
-            //CQ7 - don't forget to reset the space bar press when you've writtent the single press logic
+            //reset single space press variable
+            if (!currentKeyboardState.IsKeyDown(Keys.Space))
+            {
+                _spaceBarPressed = false;
+            }
+
+            //CQ7 - t-press teleport
+            if (currentKeyboardState.IsKeyDown(Keys.T) && !_tKeyPressed)
+            {
+                _heroX = _rng.Next(0, 750);
+                _heroY = _rng.Next(0, 430);
+                _tKeyPressed = true;
+            }
+
+            //reset t-press variable (CQ7)
+            if (!currentKeyboardState.IsKeyDown(Keys.T))
+            {
+                _tKeyPressed = false;
+            }
+
+            //hero scaling logic (CQ7)
+            if (currentKeyboardState.IsKeyDown(Keys.N) && _heroScale > 0.25f)
+            {
+                _heroScale -= 0.015f;
+            }
+
+            if (currentKeyboardState.IsKeyDown(Keys.M) && _heroScale < 3.0f)
+            {
+                _heroScale += 0.015f;
+            }
 
 
 
@@ -159,10 +209,46 @@ namespace CQ7Start
             //Gamepad Gremlin!!! (CQ7)
             GamePadState currentGamePadState = GamePad.GetState(PlayerIndex.One);
 
-            if (currentGamePadState.IsButtonDown(Buttons.A))
+            if (currentGamePadState.IsButtonDown(Buttons.A) && !_aButtonPressed)
             {
-                _gremlinColor = new Color(_rng.Next(128, 255), _rng.Next(128, 255),     _rng.Next(128, 255));
+                _aButtonPressed = true;
+                _rng = new Random();
+                _gremlinColor = new Color(_rng.Next(128, 255), _rng.Next(128, 255), _rng.Next(128, 255));
             }
+
+            //reset a button press (CQ7)
+            if (!currentGamePadState.IsButtonDown(Buttons.A))
+            {
+                _aButtonPressed = false;
+            }
+
+            
+            //teleport button pressed (CQ7)
+            if (currentGamePadState.IsButtonDown(Buttons.X) && !_xButtonPressed)
+            {
+                _gremlinX = _rng.Next(0, 750);
+                _gremlinY = _rng.Next(0, 430);
+                _xButtonPressed = true;
+            }
+
+            //reset x button press (CQ7)
+            if (!currentGamePadState.IsButtonDown(Buttons.X))
+            {
+                _xButtonPressed = false;
+            }
+
+
+            //gremlin scaling logic (CQ7)
+            if (currentGamePadState.IsButtonDown(Buttons.LeftShoulder) && _gremlinScale > 0.25f)
+            {
+                _gremlinScale -= 0.015f;
+            }
+
+            if (currentGamePadState.IsButtonDown(Buttons.RightShoulder) && _gremlinScale < 3.0f)
+            {
+                _gremlinScale += 0.015f;
+            }
+
 
             float horizontalMovement = currentGamePadState.ThumbSticks.Left.X;
             _gremlinX += horizontalMovement * _gremlinSpeed;
@@ -222,6 +308,17 @@ namespace CQ7Start
             }
 
 
+            //star rotation (CQ7)
+            if(currentMouseState.ScrollWheelValue < _mouseWheelValue && _starScale > 0.25f)
+            {
+                _starScale -= 0.15f;
+                _mouseWheelValue = currentMouseState.ScrollWheelValue;
+            }
+            else if (currentMouseState.ScrollWheelValue > _mouseWheelValue && _starScale < 3f)
+            {
+                _starScale += 0.15f;
+                _mouseWheelValue = currentMouseState.ScrollWheelValue;
+            }
 
 
             base.Update(gameTime);
