@@ -32,7 +32,7 @@ namespace CQ7Start
         private Color _starColor;
 
         //these variables will help with our input
-        private bool _mouseLeftClicked, _mouseRightClicked, _starDragging, _spaceBarPressed;
+        private bool _mouseLeftClicked, _mouseRightClicked, _starDragging;
 
 
         public Game1()
@@ -72,7 +72,6 @@ namespace CQ7Start
 
 
             //these will help us to control some of our input
-            _spaceBarPressed = false;
             _mouseLeftClicked = false;
             _mouseRightClicked = false;
             _starDragging = false;
@@ -118,17 +117,13 @@ namespace CQ7Start
             }
 
 
-            if (currentKeyboardState.IsKeyDown(Keys.Space) && !_spaceBarPressed)
+            if (currentKeyboardState.IsKeyDown(Keys.Space))
             {
                 Random rng = new Random();
                 _heroColor = new Color(rng.Next(128, 255), rng.Next(128, 255), rng.Next(128, 255));
-                _spaceBarPressed = true;
             }
 
-            if (!currentKeyboardState.IsKeyDown(Keys.Space))
-            {
-                _spaceBarPressed = false;
-            }
+            //CQ7 - don't forget to reset the space bar press when you've writtent the single press logic
 
 
 
