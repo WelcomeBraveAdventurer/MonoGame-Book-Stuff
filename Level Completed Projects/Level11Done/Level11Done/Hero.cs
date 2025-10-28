@@ -27,21 +27,21 @@ namespace Level11Done
         private int _animationTimer, _animationIndex, _animationRow;
 
         //a constructor to set the default attribute values
-public Hero(float heroX, float heroY, int heroHealth, float heroSpeed, Texture2D heroSpriteSheet)
-{
+        public Hero(float heroX, float heroY, int heroHealth, float heroSpeed, Texture2D heroSpriteSheet)
+        {
 
-    _heroX = heroX;
-    _heroY = heroY;
-    _heroHealth = heroHealth;
-    _heroSpeed = heroSpeed;
-    _heroSpriteSheet = heroSpriteSheet;
-    _heroMovingRight = true;    //start out looking right
-    _animationTimer = 0;
-    _animationIndex = 0;
-    _animationRow = 0;
+            _heroX = heroX;
+            _heroY = heroY;
+            _heroHealth = heroHealth;
+            _heroSpeed = heroSpeed;
+            _heroSpriteSheet = heroSpriteSheet;
+            _heroMovingRight = true;    //start out looking right
+            _animationTimer = 0;
+            _animationIndex = 0;
+            _animationRow = 0;
 
-    _heroState = HeroStates.idle;
-    _heroIsShooting = false;
+            _heroState = HeroStates.idle;
+            _heroIsShooting = false;
 
             _heroBlockLeft = false;
             _heroBlockRight = false;
